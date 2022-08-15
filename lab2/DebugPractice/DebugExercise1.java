@@ -4,8 +4,9 @@
  */
 public class DebugExercise1 {
     public static int divideThenRound(int top, int bottom) {
-        int quotient = top / bottom;
+        float quotient = (float) top / (float) bottom;
         int result = Math.round(quotient);
+        //round：将传入的参数+0.5之后，向下取整得到目标值。
         return result;
     }
 
