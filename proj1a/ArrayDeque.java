@@ -17,7 +17,7 @@ public class ArrayDeque<T> {
 
     public void addFirst(T x) {
         if (size == 0) {
-            first = standard;
+            first = standard + 1;
             last = standard;
         }
         int goal = standard;
@@ -39,7 +39,7 @@ public class ArrayDeque<T> {
     public void addLast(T x) {
         if (size == 0) {
             first = standard;
-            last = standard;
+            last = standard - 1;
         }
         int goal = standard;
         while (goal < maxsize) {
@@ -86,7 +86,7 @@ public class ArrayDeque<T> {
             deque[first] = null;
             first += 1;
             size -= 1;
-            if ((double) size < 0.25 * (double) maxsize) {
+            if ((double) size < 0.25 * (double) maxsize && maxsize > 7) {
                 changeSize(0);
             }
             return goal;
@@ -97,8 +97,8 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         } else {
-            T goal = deque[last - 1];
-            deque[last - 1] = null;
+            T goal = deque[last];
+            deque[last] = null;
             last -= 1;
             size -= 1;
             if ((double) size < 0.25 * (double) maxsize) {
