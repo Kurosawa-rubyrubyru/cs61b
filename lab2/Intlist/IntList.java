@@ -5,7 +5,7 @@ import java.util.Formatter;
  * with a large number of additional methods.
  *
  * @author P. N. Hilfinger, with some modifications by Josh Hug and melaniecebula
- *         [Do not modify this file.]
+ * [Do not modify this file.]
  */
 public class IntList {
     /**
@@ -29,7 +29,7 @@ public class IntList {
      * A List with null rest, and first = 0.
      */
     public IntList() {
-    /* NOTE: public IntList () { }  would also work. */
+        /* NOTE: public IntList () { }  would also work. */
         this(0, null);
     }
 
@@ -81,8 +81,13 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        IntList lastlist = new IntList();
+        lastlist.rest = A;
+        while (lastlist.rest.rest != null) {
+            lastlist.rest = lastlist.rest.rest;
+        }
+        lastlist.rest.rest = B;
+        return A;
     }
 
     /**
@@ -90,23 +95,22 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        IntList lastnodeC = new IntList();
+        IntList lastnodeA = new IntList();
+        IntList C = new IntList();
+        C.first = A.first;
+        lastnodeA.rest = A;
+        lastnodeC.rest = C;
+        while (lastnodeA.rest.rest != null) {
+            lastnodeC.rest.rest = new IntList(lastnodeA.rest.rest.first, null);
+            lastnodeA.rest = lastnodeA.rest.rest;
+            lastnodeC.rest = lastnodeC.rest.rest;
+        }
+        lastnodeC.rest.rest = B;
+        return C;
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
