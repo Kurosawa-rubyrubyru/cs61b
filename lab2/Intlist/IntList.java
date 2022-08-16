@@ -80,7 +80,17 @@ public class IntList {
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
 
+
     public static IntList dcatenate(IntList A, IntList B) {
+        if (A == null) {
+            if (B == null) {
+                return null;
+            } else {
+                A = B;
+                return B;
+            }
+
+        }
         IntList lastlist = new IntList();
         lastlist.rest = A;
         while (lastlist.rest.rest != null) {
@@ -95,6 +105,9 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
+        if (A == null) {
+            return B;
+        }
         IntList lastnodeC = new IntList();
         IntList lastnodeA = new IntList();
         IntList C = new IntList();
