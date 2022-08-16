@@ -29,11 +29,12 @@ public class ArrayDeque<T> {
                 goal -= 1;
             }
         }
+        size += 1;
+        first -= 1;
         if (goal <= 0) {
             changeSize(1);
         }
-        size += 1;
-        first -= 1;
+
     }
 
     public void addLast(T x) {
@@ -102,7 +103,7 @@ public class ArrayDeque<T> {
             deque[last] = null;
             last -= 1;
             size -= 1;
-            if ((double) size < 0.25 * (double) maxsize) {
+            if ((double) size < 0.25 * (double) maxsize && maxsize > 7) {
                 changeSize(0);
             }
             return goal;
