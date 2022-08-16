@@ -51,11 +51,12 @@ public class ArrayDeque<T> {
                 goal += 1;
             }
         }
+        size += 1;
+        last += 1;
         if (goal >= maxsize - 1) {
             changeSize(1);
         }
-        size += 1;
-        last += 1;
+
     }
 
     public boolean isEmpty() {
@@ -139,7 +140,7 @@ public class ArrayDeque<T> {
                 newdeque[newFirst + pos] = deque[first + pos];
             }
             first = newFirst;
-            last = newFirst + size;
+            last = newFirst + size - 1;
             standard = standard / 2;
             deque = newdeque.clone();
         }
