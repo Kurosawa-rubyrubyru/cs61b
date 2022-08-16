@@ -1,13 +1,13 @@
-public class LinkedListDeque<LochNess> {
+public class LinkedListDeque<T> {
     private class StuffNode {
-        public LochNess item;
-        public StuffNode next;
-        public StuffNode prev;
+        private T item;
+        private StuffNode next;
+        private StuffNode prev;
 
-        public StuffNode(LochNess i, StuffNode prev_n, StuffNode next_n) {
+        public StuffNode(T i, StuffNode Prev, StuffNode Next) {
             item = i;
-            next = next_n;
-            prev = prev_n;
+            next = Next;
+            prev = Prev;
         }
     }
 
@@ -26,7 +26,7 @@ public class LinkedListDeque<LochNess> {
     /**
      * Adds x to the front of the list.
      */
-    public void addFirst(LochNess x) {
+    public void addFirst(T x) {
         first = new StuffNode(x, sentry, sentry.next);
         first.next.prev = first;
         sentry.next = first;
@@ -36,22 +36,16 @@ public class LinkedListDeque<LochNess> {
         size += 1;
     }
 
-    public void addLast(LochNess x) {
+    public void addLast(T x) {
         last = new StuffNode(x, sentry.prev, sentry);
         last.prev.next = last;
         sentry.prev = last;
-        size += 1;
         if (size == 0) {
             first = last;
         }
+        size += 1;
     }
 
-    /**
-     * Returns the first item in the list.
-     */
-    public LochNess getFirst() {
-        return first.item;
-    }
 
     /**
      * Adds an item to the end of the list.
@@ -63,14 +57,10 @@ public class LinkedListDeque<LochNess> {
     }
 
     public boolean isEmpty() {
-        if (size > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return (size == 0);
     }
 
-    public LochNess removeFirst() {
+    public T removeFirst() {
         if (size == 0) {
             return null;
         } else {
@@ -83,7 +73,7 @@ public class LinkedListDeque<LochNess> {
         }
     }
 
-    public LochNess removeLast() {
+    public T removeLast() {
         if (size == 0) {
             return null;
         } else {
@@ -104,7 +94,7 @@ public class LinkedListDeque<LochNess> {
         }
     }
 
-    public LochNess get(int index) {
+    public T get(int index) {
         if (size == 0) {
             return null;
         } else if (index >= size) {
@@ -118,7 +108,7 @@ public class LinkedListDeque<LochNess> {
         }
     }
 
-    public LochNess getRecursive(int index) {
+    public T getRecursive(int index) {
         if (size == 0) {
             return null;
         } else if (index >= size) {

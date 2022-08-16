@@ -1,8 +1,8 @@
-public class ArrayDeque<LochNess> {
+public class ArrayDeque<T> {
     private class StuffNode {
-        public LochNess item;
+        private T item;
 
-        public StuffNode(LochNess i) {
+        public StuffNode(T i) {
             item = i;
         }
 
@@ -23,7 +23,7 @@ public class ArrayDeque<LochNess> {
         standard = max_size / 2;
     }
 
-    public void addFirst(LochNess x) {
+    public void addFirst(T x) {
         if (size == 0) {
             first = standard;
             last = standard;
@@ -44,7 +44,7 @@ public class ArrayDeque<LochNess> {
         first -= 1;
     }
 
-    public void addLast(LochNess x) {
+    public void addLast(T x) {
         if (size == 0) {
             first = standard;
             last = standard;
@@ -83,11 +83,11 @@ public class ArrayDeque<LochNess> {
         }
     }
 
-    public LochNess get(int index) {
+    public T get(int index) {
         return deque[first + index].item;
     }
 
-    public LochNess removeFirst() {
+    public T removeFirst() {
         if (size == 0) {
             return null;
         } else {
@@ -100,7 +100,7 @@ public class ArrayDeque<LochNess> {
         }
     }
 
-    public LochNess removeLast() {
+    public T removeLast() {
         if (size == 0) {
             return null;
         } else {
