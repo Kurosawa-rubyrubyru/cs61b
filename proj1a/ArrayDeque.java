@@ -1,26 +1,18 @@
 public class ArrayDeque<T> {
-    private class StuffNode {
-        private T item;
-
-        public StuffNode(T i) {
-            item = i;
-        }
-
-    }
 
     private int first;
     private int last;
     private int size;
-    private int max_size;
+    private int maxsize;
     private int standard;
-    private StuffNode[] deque;
-    private StuffNode[] new_deque;
+    private T[] deque;
+    private T[] newdeque;
 
     public ArrayDeque() {
-        deque = (StuffNode[]) new Object[8];
+        deque = (T[]) new Object[8];
         size = 0;
-        max_size = 8;
-        standard = max_size / 2;
+        maxsize = 8;
+        standard = maxsize / 2;
     }
 
     public void addFirst(T x) {
@@ -31,14 +23,14 @@ public class ArrayDeque<T> {
         int goal = standard;
         while (goal >= 0) {
             if (deque[goal] == null) {
-                deque[goal] = new StuffNode(x);
+                deque[goal] = x;
                 break;
             } else {
                 goal -= 1;
             }
         }
-        if (goal == -1) {
-            ChangeSize(1);
+        if (goal <= 0) {
+            changeSize(1);
         }
         size += 1;
         first -= 1;
@@ -50,27 +42,24 @@ public class ArrayDeque<T> {
             last = standard;
         }
         int goal = standard;
-        while (goal < max_size) {
+        while (goal < maxsize) {
             if (deque[goal] == null) {
-                deque[goal] = new StuffNode(x);
+                deque[goal] = x;
+
                 break;
             } else {
                 goal += 1;
             }
         }
-        if (goal == max_size) {
-            ChangeSize(1);
+        if (goal >= maxsize - 1) {
+            changeSize(1);
         }
         size += 1;
         last += 1;
     }
 
     public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (size == 0);
     }
 
     public int size() {
@@ -78,25 +67,29 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        for (int goal = first; goal <= last; goal += 1) {
-            System.out.print(deque[goal].item);
+        for (int goal = first; goal <= last - 1; goal += 1) {
+            System.out.print(deque[goal] + " ");
         }
+        System.out.print("\n");
+
     }
 
     public T get(int index) {
-        return deque[first + index].item;
+        return deque[first + index];
     }
 
     public T removeFirst() {
         if (size == 0) {
             return null;
         } else {
+            T goal = deque[first];
+            deque[first] = null;
             first += 1;
             size -= 1;
-            if ((double) size < 0.25 * (double) max_size) {
-                ChangeSize(0);
+            if ((double) size < 0.25 * (double) maxsize) {
+                changeSize(0);
             }
-            return deque[first - 1].item;
+            return goal;
         }
     }
 
@@ -104,35 +97,51 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         } else {
+            T goal = deque[last - 1];
+            deque[last - 1] = null;
             last -= 1;
             size -= 1;
-            if ((double) size < 0.25 * (double) max_size) {
-                ChangeSize(0);
+            if ((double) size < 0.25 * (double) maxsize) {
+                changeSize(0);
             }
-            return deque[last + 1].item;
+            return goal;
         }
     }
 
-    private void ChangeSize(int p) {
+    private void changeSize(int p) {
         if (p == 1) {
-            new_deque = (StuffNode[]) new Object[2 * max_size];
-            deque[standard] = new_deque[2 * standard];
+            newdeque = (T[]) new Object[2 * maxsize];
+            maxsize = maxsize * 2;
+            newdeque[2 * standard] = deque[standard];
             for (int pos = 1; pos <= last - standard; pos += 1) {
-                deque[standard + pos] = new_deque[2 * standard + pos];
+                newdeque[2 * standard + pos] = deque[standard + pos];
             }
             for (int pos = 1; pos <= standard - first; pos += 1) {
-                deque[standard - pos] = new_deque[2 * standard - pos];
+                newdeque[2 * standard - pos] = deque[standard - pos];
             }
+            first = 2 * standard - (standard - first);
+            last = 2 * standard + (last - standard);
+            standard = standard * 2;
+            deque = newdeque.clone();
         } else if (p == 0) {
-            new_deque = (StuffNode[]) new Object[max_size / 2];
-            deque[standard] = new_deque[standard / 2];
-            for (int pos = 1; pos <= last - standard; pos += 1) {
-                deque[standard + pos] = new_deque[standard / 2 + pos];
-            }
-            for (int pos = 1; pos <= standard - first; pos += 1) {
-                deque[standard - pos] = new_deque[standard / 2 - pos];
-            }
+            newdeque = (T[]) new Object[maxsize / 2];
+            maxsize = maxsize / 2;
+            newdeque[standard / 2] = deque[standard];
+//            for (int pos = 1; pos <= last - standard; pos += 1) {
+//                newdeque[standard / 2 + pos] = deque[standard + pos];
+//            }
+//            for (int pos = 1; pos <= standard - first; pos += 1) {
+//                newdeque[standard / 2 - pos] = deque[standard - pos];
+//            }
 
+            int newFirst = standard / 2 - (last - first) / 2;
+            for (int pos = 0; pos < size; pos += 1) {
+                newdeque[newFirst + pos] = deque[first + pos];
+            }
+            first = newFirst;
+            last = newFirst + size;
+            standard = standard / 2;
+            deque = newdeque.clone();
         }
 
     }
