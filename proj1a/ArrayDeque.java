@@ -17,47 +17,38 @@ public class ArrayDeque<T> {
 
     public void addFirst(T x) {
         if (size == 0) {
-            first = standard + 1;
+            first = standard;
             last = standard;
-        }
-        int goal = standard;
-        while (goal >= 0) {
-            if (deque[goal] == null) {
-                deque[goal] = x;
-                break;
+            deque[standard] = x;
+        } else {
+            if (first == 1) {
+                deque[0] = x;
+                first -= 1;
+                changeSize(1);
             } else {
-                goal -= 1;
+                deque[first - 1] = x;
+                first -= 1;
             }
         }
         size += 1;
-        first -= 1;
-        if (goal <= 0) {
-            changeSize(1);
-        }
-
     }
 
     public void addLast(T x) {
         if (size == 0) {
             first = standard;
-            last = standard - 1;
-        }
-        int goal = standard;
-        while (goal < maxsize) {
-            if (deque[goal] == null) {
-                deque[goal] = x;
-
-                break;
+            last = standard;
+            deque[standard] = x;
+        } else {
+            if (last == maxsize - 2) {
+                deque[maxsize - 1] = x;
+                last += 1;
+                changeSize(1);
             } else {
-                goal += 1;
+                deque[last + 1] = x;
+                last += 1;
             }
         }
         size += 1;
-        last += 1;
-        if (goal >= maxsize - 1) {
-            changeSize(1);
-        }
-
     }
 
     public boolean isEmpty() {
@@ -103,7 +94,7 @@ public class ArrayDeque<T> {
             deque[last] = null;
             last -= 1;
             size -= 1;
-            if ((double) size < 0.25 * (double) maxsize && maxsize > 7) {
+            if ((double) size < (0.5 * (double) maxsize - 2.0) && maxsize > 7) {
                 changeSize(0);
             }
             return goal;
