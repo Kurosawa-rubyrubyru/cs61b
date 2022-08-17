@@ -20,17 +20,27 @@ public class ArrayDeque<T> {
             first = standard;
             last = standard;
             deque[standard] = x;
+            size = 1;
         } else {
-            if (first == 1) {
-                deque[0] = x;
-                first -= 1;
-                changeSize(1);
+            if (first == 0) {
+                if (last == maxsize - 1) {
+                    changeSize(1);
+                    deque[first - 1] = x;
+                    first -= 1;
+                    size += 1;
+                } else {
+                    rePosition(1);
+                    deque[first - 1] = x;
+                    first -= 1;
+                    size += 1;
+                }
             } else {
                 deque[first - 1] = x;
                 first -= 1;
+                size += 1;
             }
         }
-        size += 1;
+
     }
 
     public void addLast(T x) {
@@ -38,17 +48,26 @@ public class ArrayDeque<T> {
             first = standard;
             last = standard;
             deque[standard] = x;
+            size = 1;
         } else {
-            if (last == maxsize - 2) {
-                deque[maxsize - 1] = x;
-                last += 1;
-                changeSize(1);
+            if (last == maxsize - 1) {
+                if (first == 0) {
+                    changeSize(1);
+                    deque[last + 1] = x;
+                    last += 1;
+                    size += 1;
+                } else {
+                    rePosition(0);
+                    deque[last + 1] = x;
+                    last += 1;
+                    size += 1;
+                }
             } else {
                 deque[last + 1] = x;
                 last += 1;
+                size += 1;
             }
         }
-        size += 1;
     }
 
     public boolean isEmpty() {
@@ -136,6 +155,22 @@ public class ArrayDeque<T> {
             standard = standard / 2;
             deque = newdeque.clone();
         }
+    }
 
+    private void rePosition(int p) {
+        newdeque = (T[]) new Object[maxsize];
+        int dp = maxsize - size;
+        int newFirst;
+        if (p != 0) {
+            newFirst = Math.max(dp / 2, 1);
+        } else {
+            newFirst = dp / 2;
+        }
+        for (int pos = 0; pos < size; pos += 1) {
+            newdeque[newFirst + pos] = deque[first + pos];
+        }
+        first = newFirst;
+        last = newFirst + size - 1;
+        deque = newdeque.clone();
     }
 }
