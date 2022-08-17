@@ -25,20 +25,13 @@ public class ArrayDeque<T> {
             if (first == 0) {
                 if (last == maxsize - 1) {
                     changeSize(1);
-                    deque[first - 1] = x;
-                    first -= 1;
-                    size += 1;
                 } else {
                     rePosition(1);
-                    deque[first - 1] = x;
-                    first -= 1;
-                    size += 1;
                 }
-            } else {
-                deque[first - 1] = x;
-                first -= 1;
-                size += 1;
             }
+            deque[first - 1] = x;
+            first -= 1;
+            size += 1;
         }
 
     }
@@ -53,20 +46,13 @@ public class ArrayDeque<T> {
             if (last == maxsize - 1) {
                 if (first == 0) {
                     changeSize(1);
-                    deque[last + 1] = x;
-                    last += 1;
-                    size += 1;
                 } else {
                     rePosition(0);
-                    deque[last + 1] = x;
-                    last += 1;
-                    size += 1;
                 }
-            } else {
-                deque[last + 1] = x;
-                last += 1;
-                size += 1;
             }
+            deque[last + 1] = x;
+            last += 1;
+            size += 1;
         }
     }
 
