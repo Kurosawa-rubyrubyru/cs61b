@@ -1,14 +1,18 @@
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
+
 public class TestArrayDequeGold {
-    public static void main(String[] args) {
+    @Test
+    public void test1() {
         StudentArrayDeque<Integer> wr = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> ri = new ArrayDequeSolution<>();
         int[] Operations = new int[100];
         int[] Numbers = new int[100];
         int size = 0;
         int NumOperation = 0;
-        while (NumOperation < 100) {
+        while (NumOperation < 99) {
             double RandomOne = StdRandom.uniform();
             double RandomTwo = StdRandom.uniform();
             if (RandomOne < 0.5) {
@@ -46,6 +50,10 @@ public class TestArrayDequeGold {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        jh61b.junit.TestRunner.runTests(TestArrayDequeGold.class);
     }
 
     private static String GetString(int[] Operations, int[] Numbers, int NumOperation) {
