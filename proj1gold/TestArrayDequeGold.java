@@ -40,12 +40,14 @@ public class TestArrayDequeGold {
                         Numbers[NumOperation] = 0;
                         assertEquals(GetString(Operations, Numbers, NumOperation), w, r);
 
+
                     } else {
                         Integer w = wr.removeFirst();
                         Integer r = ri.removeFirst();
                         Operations[NumOperation] = 4;
                         Numbers[NumOperation] = 0;
                         assertEquals(GetString(Operations, Numbers, NumOperation), w, r);
+
                     }
                 }
             }
@@ -58,7 +60,7 @@ public class TestArrayDequeGold {
 
     private static String GetString(int[] Operations, int[] Numbers, int NumOperation) {
         String AnsString = "";
-        for (int i = 1; i < NumOperation; i += 1) {
+        for (int i = 1; i <= NumOperation; i += 1) {
             if (Operations[i] == 1) {
                 String s = "addLast(" + Numbers[i] + ")\n";
                 AnsString += s;
