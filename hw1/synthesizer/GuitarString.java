@@ -1,4 +1,4 @@
-// TODO: Make sure to make this class a part of the synthesizer package
+// todo: Make sure to make this class a part of the synthesizer package
 //package <package name>;
 
 import synthesizer.ArrayRingBuffer;
@@ -12,7 +12,7 @@ public class GuitarString {
      */
     private static final int SR = 44100;      // Sampling Rate
     private static final double DECAY = .996; // energy decay factor
-    private double Ldequeue = 0.0;
+    private double ldequeue = 0.0;
     /* Buffer for storing sound data. */
     private ArrayRingBuffer<Double> buffer;
 
@@ -21,7 +21,7 @@ public class GuitarString {
         buffer = new ArrayRingBuffer<Double>(Math.round((float) (SR / DECAY)));
         for (int i = 0; i < buffer.capacity(); i++) {
             buffer.enqueue(0.0);
-            // TODO: Create a buffer with capacity = SR / frequency. You'll need to
+            // todo: Create a buffer with capacity = SR / frequency. You'll need to
             //       cast the result of this divsion operation into an int. For better
             //       accuracy, use the Math.round() function before casting.
             //       Your buffer should be initially filled with zeros.
@@ -38,7 +38,7 @@ public class GuitarString {
             buffer.enqueue(Math.random() - 0.5);
         }
     }
-    // TODO: Dequeue everything in the buffer, and replace it with random numbers
+    // todo: Dequeue everything in the buffer, and replace it with random numbers
     //       between -0.5 and 0.5. You can get such a number by using:
     //       double r = Math.random() - 0.5;
     //
@@ -51,16 +51,16 @@ public class GuitarString {
     public void tic() {
         double a = buffer.dequeue();
         double b = buffer.peek();
-        Ldequeue = a;
+        ldequeue = a;
         buffer.enqueue(DECAY * (a + b) / 2.0);
-        // TODO: Dequeue the front sample and enqueue a new sample that is
+        // todo: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        // TODO: Return the correct thing.
-        return Ldequeue;
+        // todo: Return the correct thing.
+        return ldequeue;
     }
 }
