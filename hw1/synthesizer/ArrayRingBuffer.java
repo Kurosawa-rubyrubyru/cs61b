@@ -41,9 +41,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         if (capacity == fillCount) {
             throw new RuntimeException("full");
         }
-        last = (last + 1) / capacity;
+        last = (last + 1) % capacity;
         fillCount += 1;
-        rb[last] = x;
+        if (last == 0) {
+            rb[capacity - 1] = x;
+        } else {
+
+            rb[last - 1] = x;
+        }
     }
 
     /**
@@ -56,9 +61,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         if (fillCount == 0) {
             throw new RuntimeException("empty");
         }
-        first = (first + 1) / capacity;
+        T ans = rb[first];
+        first = (first + 1) % capacity;
         fillCount -= 1;
-        return rb[(first - 1) / capacity];
+        return ans;
     }
 
     /**
@@ -68,7 +74,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         if (fillCount == 0) {
             throw new RuntimeException("empty");
         }
-        return rb[first / capacity];
+        return rb[first];
         // todo: Return the first item. None of your instance variables should change.
     }
 
