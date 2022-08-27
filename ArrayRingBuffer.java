@@ -65,6 +65,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Return oldest item, but don't remove it.
      */
     public T peek() {
+        if (fillCount == 0) {
+            throw new RuntimeException("empty");
+        }
         return rb[first / capacity];
         // todo: Return the first item. None of your instance variables should change.
     }
@@ -72,11 +75,11 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     // todo: When you get to part 5, implement the needed code to support iteration.
 
     private class ArrayRingIterator implements Iterator<T> {
-        private int StartIterator;
+        private int start;
         private int now;
 
         public ArrayRingIterator() {
-            StartIterator = first;
+            start = first;
             now = first;
         }
 
@@ -85,7 +88,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         }
 
         public T next() {
-            if (StartIterator + 1 > capacity) {
+            if (start + 1 > capacity) {
                 now = 0;
                 return rb[now];
             } else {

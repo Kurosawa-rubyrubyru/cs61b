@@ -1,7 +1,5 @@
 // todo: Make sure to make this class a part of the synthesizer package
-//package <package name>;
-
-import synthesizer.ArrayRingBuffer;
+package synthesizer;
 
 //Make sure this class is public
 public class GuitarString {
