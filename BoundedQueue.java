@@ -1,6 +1,8 @@
 package synthesizer;
 
-public interface BoundedQueue<T> {
+import java.util.Iterator;
+
+public interface BoundedQueue<T> extends Iterable<T> {
 
     int capacity();     // return size of the buffer
 
@@ -11,6 +13,9 @@ public interface BoundedQueue<T> {
     T dequeue();        // delete and return item from the front
 
     T peek();   // return (but do not delete) item from the front
+
+    Iterator<T> iterator();
+
 
     default boolean isEmpty() {
         return (fillCount() == 0);

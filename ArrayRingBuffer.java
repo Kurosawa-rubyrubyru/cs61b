@@ -1,8 +1,11 @@
-// TODO: Make sure to make this class a part of the synthesizer package
+// todo: Make sure to make this class a part of the synthesizer package
 package synthesizer;
 
-//TODO: Make sure to make this class and all of its methods public
-//TODO: Make sure to make this class extend AbstractBoundedQueue<t>
+//todo: Make sure to make this class and all of its methods public
+//todo: Make sure to make this class extend AbstractBoundedQueue<t>
+
+import java.util.Iterator;
+
 public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
@@ -20,8 +23,8 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         fillCount = 0;
         this.capacity = capacity;
         rb = (T[]) new Object[capacity];
-        
-        // TODO: Create new array with capacity elements.
+
+        // todo: Create new array with capacity elements.
         //       first, last, and fillCount should all be set to 0.
         //       this.capacity should be set appropriately. Note that the local variable
         //       here shadows the field we inherit from AbstractBoundedQueue, so
@@ -34,7 +37,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * covered Monday.
      */
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
+        // todo: Enqueue the item. Don't forget to increase fillCount and update last.
+        if (capacity == fillCount) {
+            throw new RuntimeException("full");
+        }
         last = (last + 1) / capacity;
         fillCount += 1;
         rb[last] = x;
@@ -46,7 +52,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * covered Monday.
      */
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
+        // todo: Dequeue the first item. Don't forget to decrease fillCount and update
+        if (fillCount == 0) {
+            throw new RuntimeException("empty");
+        }
         first = (first + 1) / capacity;
         fillCount -= 1;
         return rb[(first - 1) / capacity];
@@ -57,8 +66,36 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public T peek() {
         return rb[first / capacity];
-        // TODO: Return the first item. None of your instance variables should change.
+        // todo: Return the first item. None of your instance variables should change.
     }
 
-    // TODO: When you get to part 5, implement the needed code to support iteration.
+    // todo: When you get to part 5, implement the needed code to support iteration.
+
+    private class ArrayRingIterator implements Iterator<T> {
+        private int StartIterator;
+        private int now;
+
+        public ArrayRingIterator() {
+            StartIterator = first;
+            now = first;
+        }
+
+        public boolean hasNext() {
+            return (now != last);
+        }
+
+        public T next() {
+            if (StartIterator + 1 > capacity) {
+                now = 0;
+                return rb[now];
+            } else {
+                now += 1;
+                return rb[now + 1];
+            }
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayRingIterator();
+    }
 }
