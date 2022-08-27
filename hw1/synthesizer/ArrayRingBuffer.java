@@ -99,7 +99,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
                 return rb[now];
             } else {
                 now += 1;
-                return rb[now + 1];
+                return rb[now];
             }
         }
     }
