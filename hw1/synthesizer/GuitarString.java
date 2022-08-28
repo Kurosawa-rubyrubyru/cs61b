@@ -10,7 +10,6 @@ public class GuitarString {
      */
     private static final int SR = 44100;      // Sampling Rate
     private static final double DECAY = .996; // energy decay factor
-    private double ldequeue = 0.0;
     /* Buffer for storing sound data. */
     private ArrayRingBuffer<Double> buffer;
 
@@ -50,7 +49,6 @@ public class GuitarString {
     public void tic() {
         double a = buffer.dequeue();
         double b = buffer.peek();
-        ldequeue = a;
         buffer.enqueue(DECAY * (a + b) / 2.0);
         // todo: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
@@ -60,6 +58,6 @@ public class GuitarString {
     /* Return the double at the front of the buffer. */
     public double sample() {
         // todo: Return the correct thing.
-        return ldequeue;
+        return buffer.peek();
     }
 }
