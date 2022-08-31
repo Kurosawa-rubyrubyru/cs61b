@@ -8,6 +8,8 @@ public class Percolation {
 
     private boolean[][] openclosesystem;
 
+    private boolean[][] fullsystem;
+
     private int N;
 
     private WeightedQuickUnionUF union;
@@ -31,6 +33,12 @@ public class Percolation {
         for (int i = 0; i < N; i += 1) {
             for (int j = 0; j < N; j += 1) {
                 openclosesystem[i][j] = false;
+            }
+        }
+        fullsystem = new boolean[N][N];
+        for (int i = 0; i < N; i += 1) {
+            for (int j = 0; j < N; j += 1) {
+                fullsystem[i][j] = false;
             }
         }
 
@@ -69,7 +77,8 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        return (union.connected(0, arrayToUnion(row, col)) && isOpen(row, col));
+        fullsystem[row][col] = union.connected(0, arrayToUnion(row, col)) && isOpen(row, col);
+        return (fullsystem[row][col]);
     }
 
     // number of open sites
@@ -80,7 +89,7 @@ public class Percolation {
     // does the system percolate?
     public boolean percolates() {
         for (int i = 0; i < N; i += 1) {
-            if (isFull(N - 1, i)) {
+            if (fullsystem[N - 1][i]) {
                 return true;
             }
 
