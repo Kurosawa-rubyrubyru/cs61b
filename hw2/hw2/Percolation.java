@@ -12,6 +12,8 @@ public class Percolation {
 
     private WeightedQuickUnionUF union;
 
+    private WeightedQuickUnionUF unionbottom;
+
 //    private int[] unionToArray(int id) {
 //        int[] ans = new int[2];
 //        ans[0] = (id - 1) / N;
@@ -35,6 +37,9 @@ public class Percolation {
         }
 
         union = new WeightedQuickUnionUF(1 + N * N);
+
+        unionbottom = new WeightedQuickUnionUF(2 + N * N);
+
         sumopen = 0;
         this.N = N;
     }
@@ -47,18 +52,28 @@ public class Percolation {
         }
         if (row == 0) {
             union.union(arrayToUnion(row, col), 0);
+            unionbottom.union(arrayToUnion(row, col), 0);
+
         }
         if (row > 0 && isOpen(row - 1, col)) {
             union.union(arrayToUnion(row, col), arrayToUnion(row - 1, col));
+            unionbottom.union(arrayToUnion(row, col), arrayToUnion(row - 1, col));
+
         }
         if (col > 0 && isOpen(row, col - 1)) {
             union.union(arrayToUnion(row, col), arrayToUnion(row, col - 1));
+            unionbottom.union(arrayToUnion(row, col), arrayToUnion(row, col - 1));
         }
         if (row < N - 1 && isOpen(row + 1, col)) {
             union.union(arrayToUnion(row, col), arrayToUnion(row + 1, col));
+            unionbottom.union(arrayToUnion(row, col), arrayToUnion(row + 1, col));
         }
         if (col < N - 1 && isOpen(row, col + 1)) {
             union.union(arrayToUnion(row, col), arrayToUnion(row, col + 1));
+            unionbottom.union(arrayToUnion(row, col), arrayToUnion(row, col + 1));
+        }
+        if (row == N - 1) {
+            unionbottom.union(arrayToUnion(row, col), N * N + 1);
         }
     }
 
@@ -79,13 +94,15 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        for (int i = 0; i < N; i += 1) {
-            if (isFull(N - 1, i)) {
-                return true;
-            }
-
-        }
-        return false;
+        //不能循环判定，复杂度过大
+//        for (int i = 0; i < N; i += 1) {
+//            if (isFull(N - 1, i)) {
+//                return true;
+//            }
+//
+//        }
+//        return false;
+        return unionbottom.connected(0, N * N + 1);
     }
 
 
