@@ -105,5 +105,7 @@ public class Percolation {
         return unionbottom.connected(0, N * N + 1);
     }
 
+    public static void main(String[] args) {
+    }
 
 }
