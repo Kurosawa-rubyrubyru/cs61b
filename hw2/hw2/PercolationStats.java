@@ -9,13 +9,13 @@ public class PercolationStats {
     private double stddev;
     private double confidenceLow;
     private double confidenceHigh;
-    private int[] ans;
+    private double[] ans;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (T <= 0 || N <= 0) {
             throw new IllegalArgumentException("T<=0||N<=0");
         }
-        ans = new int[T];
+        ans = new double[T];
         for (int times = 0; times < T; times += 1) {
             Percolation p = pf.make(N);
             int sumsites = 0;
@@ -32,7 +32,7 @@ public class PercolationStats {
                 p.open(randrow, randcol);
                 sumsites += 1;
             }
-            ans[times] = sumsites;
+            ans[times] = (double) sumsites / (double) (N * N);
         }
         mean = StdStats.mean(ans);
         stddev = StdStats.stddev(ans);
@@ -61,5 +61,5 @@ public class PercolationStats {
         return confidenceHigh;
     }
 
-    
+
 }
