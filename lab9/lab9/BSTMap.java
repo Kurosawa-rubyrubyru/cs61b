@@ -125,7 +125,23 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        if (root == null) {
+            return null;
+        }
+        Node goal = root;
+        Node parent = null;
+        while (goal != null) {
+            if (key.compareTo(goal.key) > 0) {
+                parent = goal;
+                goal = goal.right;
+            } else if (key.compareTo(goal.key) < 0) {
+                parent = goal;
+                goal = goal.left;
+            } else {
+                return removeHelper(parent, goal);
+            }
+        }
+        return null;
     }
 
     /**
@@ -133,9 +149,49 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      * currently mapped to the specified value.  Returns the VALUE removed,
      * null on failed removal.
      **/
+
+    private V removeHelper(Node parent, Node goal) {
+        if (goal.left == null) {
+            if (goal == root) {
+                root = goal.right;
+            } else if (goal == parent.left) {
+                parent.left = goal.right;
+            } else if (goal == parent.right) {
+                parent.right = goal.right;
+            }
+        } else if (goal.right == null) {
+            if (goal == root) {
+                root = goal.left;
+            } else if (goal == parent.left) {
+                parent.left = goal.left;
+            } else if (goal == parent.right) {
+                parent.right = goal.left;
+            }
+        } else {
+            Node target = goal.right;
+            Node targetParent = goal;
+            while (target.left != null) {
+                targetParent = target;
+                target = target.left;
+            }
+            goal.value = target.value;
+            goal.key = target.key;
+            if (target == targetParent.left) {
+                targetParent.left = target.right;
+            } else {
+                targetParent.right = target.right;
+            }
+        }
+        return goal.value;
+    }
+
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (get(key) == value) {
+            return remove(key);
+        } else {
+            return null;
+        }
     }
 
     @Override
