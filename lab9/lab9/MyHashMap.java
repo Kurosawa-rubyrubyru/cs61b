@@ -14,7 +14,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private static final int DEFAULT_SIZE = 16;
     private static final double MAX_LF = 0.75;
     private int NEW_SIZE = 16;
-    private ArrayMap<K, V>[] newbuckets;
 
     private ArrayMap<K, V>[] buckets;
     private int size;
@@ -70,13 +69,37 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         size += 1;
         if (loadFactor() > MAX_LF) {
             NEW_SIZE *= 2;
-            newbuckets = new ArrayMap[NEW_SIZE];
+            MyHashMap<K, V> newmap = new MyHashMap<K, V>();
+            newmap.buckets = new ArrayMap[NEW_SIZE];
+            newmap.clear();
             for (int i = 0; i < this.buckets.length; i += 1) {
-                while (this.buckets[i].iterator().hasNext())
-//                    key = this.buckets[i].iterator();
-                    break;
+                Iterator<K> iterator = this.buckets[i].iterator();
+                while (iterator.hasNext()) {
+                    key = iterator.next();
+                    newmap.put(key, get(key));
+                }
             }
+            this.buckets = newmap.buckets;
+            this.size = newmap.size;
         }
+        //直接插入构建一个新对象就好了
+//            NEW_SIZE *= 2;
+//            newbuckets = new ArrayMap[NEW_SIZE];
+//            for (int i = 0; i < this.buckets.length; i += 1) {
+//                Iterator<K> newiterator = this.buckets[i].iterator();
+//                while (newiterator.hasNext()) {
+//                    key = newiterator.next();
+//                    if (key == null) {
+//                        break;
+//                    }
+//                    System.out.println(key);
+//                    if (get(key) != null) {
+//                        this.newbuckets[Math.floorMod(key.hashCode(), newbuckets.length)].remove(key);
+//                    }
+//                }
+//            }
+//            buckets = newbuckets;
+//        }
     }
 
     /* Returns the number of key-value mappings in this map. */
