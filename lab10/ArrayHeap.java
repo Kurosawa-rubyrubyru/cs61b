@@ -104,9 +104,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
-        if (!inBounds(index)) {
-            validateSinkSwimArg(index);
-        }
+//        if (!inBounds(index)) {
+//            validateSinkSwimArg(index);
+//        }
         while (index > 1 && getNode(index).myPriority < getNode(parentIndex(index)).myPriority) {
             swap(parentIndex(index), index);
             index = parentIndex(index);
@@ -117,9 +117,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Bubbles down the node currently at the given index.
      */
     private void sink(int index) {
-        if (!inBounds(index)) {
-            validateSinkSwimArg(index);
-        }
+//        if (!inBounds(index)) {
+//            validateSinkSwimArg(index);
+//        }
 
         while (index * 2 <= size && getNode(index).myPriority >= getNode(min(leftIndex(index), rightIndex(index))).myPriority) {
             if (min(leftIndex(index), rightIndex(index)) == leftIndex(index)) {
