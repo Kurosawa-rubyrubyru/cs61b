@@ -22,9 +22,9 @@ public class SimpleOomage implements Oomage {
         if (o.getClass() != this.getClass()) {
             return false;
         }
-        if (((SimpleOomage) o).red != this.red ||
-                ((SimpleOomage) o).green != this.green ||
-                ((SimpleOomage) o).blue != this.blue) {
+        if (((SimpleOomage) o).red != this.red
+                || ((SimpleOomage) o).green != this.green
+                || ((SimpleOomage) o).blue != this.blue) {
             return false;
         }
         return true;
@@ -54,6 +54,7 @@ public class SimpleOomage implements Oomage {
         blue = b;
     }
 
+    //
     @Override
     public void draw(double x, double y, double scalingFactor) {
         StdDraw.setPenColor(new Color(red, green, blue));

@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-
 public class OomageTestUtility {
     public static boolean haveNiceHashCodeSpread(List<Oomage> oomages, int M) {
-        /* TODO:
+        /* todo:
          * Write a utility function that returns true if the given oomages
          * have hashCodes that would distribute them fairly evenly across
          * M buckets. To do this, convert each oomage's hashcode in the
@@ -33,10 +31,8 @@ public class OomageTestUtility {
             sum += times.get(key);
         }
         for (Integer key : keyset) {
-            try {
-                assertTrue((double) times.get(key) > 0.02 * sum);
-                assertTrue((double) times.get(key) < 0.4 * sum);
-            } catch (Exception e) {
+            if ((double) times.get(key) > 0.02 * sum
+                    || (double) times.get(key) < 0.4 * sum) {
                 return false;
             }
         }
