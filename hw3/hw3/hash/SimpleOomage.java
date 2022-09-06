@@ -3,7 +3,7 @@ package hw3.hash;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 
-import java.awt.*;
+import java.awt.Color;
 
 
 public class SimpleOomage implements Oomage {
