@@ -31,8 +31,8 @@ public class OomageTestUtility {
             sum += times.get(key);
         }
         for (Integer key : keyset) {
-            if ((double) times.get(key) > 0.02 * sum
-                    || (double) times.get(key) < 0.4 * sum) {
+            if ((double) times.get(key) <= 0.02 * sum
+                    || (double) times.get(key) >= 0.4 * sum) {
                 return false;
             }
         }
