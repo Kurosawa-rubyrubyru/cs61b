@@ -203,13 +203,15 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         for (int i = 1; i <= size; i += 1) {
             if (getNode(i).item().equals(item)) {
                 index = i;
+                getNode(i).myItem=item;
+                getNode(i).myPriority=priority
                 break;
             }
         }
         if (index == -1) {
             throw new RuntimeException("No item match");
         }
-        if (index > 1 && getNode(index).myPriority < getNode(parentIndex(index)).myPriority) {
+        if (getNode(index).myPriority < getNode(parentIndex(index)).myPriority) {
             swim(index);
         } else {
             sink(index);
