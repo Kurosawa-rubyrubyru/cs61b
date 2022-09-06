@@ -211,7 +211,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (index == -1) {
             throw new RuntimeException("No item match");
         }
-        if (getNode(index).myPriority < getNode(parentIndex(index)).myPriority) {
+        if (index > 1 && getNode(index).myPriority < getNode(parentIndex(index)).myPriority) {
             swim(index);
         } else {
             sink(index);
