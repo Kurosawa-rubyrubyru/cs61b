@@ -68,8 +68,12 @@ public final class Solver {
             }
         });
         SearchNode initialnode = new SearchNode(initial, 0, null);
-        pq.insert(initialnode);
-        SolverHelper();
+        if (initialnode.board.isGoal()) {
+            ansnode = initialnode;
+        } else {
+            pq.insert(initialnode);
+            SolverHelper();
+        }
     }
 
     public int moves() {
