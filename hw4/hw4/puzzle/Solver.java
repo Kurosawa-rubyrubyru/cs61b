@@ -2,11 +2,16 @@ package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public final class Solver {
 
-    private class boardIterable implements Iterable<WorldState> {
+public class Solver {
+
+    private class boarditerable implements Iterable<WorldState> {
         private int id = anslist.size();
 
         public Iterator<WorldState> iterator() {
@@ -72,7 +77,7 @@ public final class Solver {
             ansnode = initialnode;
         } else {
             pq.insert(initialnode);
-            SolverHelper();
+            solverhelper();
         }
     }
 
@@ -88,11 +93,11 @@ public final class Solver {
             anslist.add(newnode.prenode);
             newnode = newnode.prenode;
         }
-        boardIterable iter = new boardIterable();
+        boarditerable iter = new boarditerable();
         return iter;
     }
 
-    private SearchNode SolverHelper() {
+    private SearchNode solverhelper() {
         while (true) {
             SearchNode node = pq.delMin();
             if (node.board.isGoal()) {
