@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Solver {
 
-    private class boardIterable implements Iterable<WorldState> {
+    private class Boarditerable implements Iterable<WorldState> {
         private int id = anslist.size();
 
         public Iterator<WorldState> iterator() {
@@ -76,7 +76,7 @@ public class Solver {
             ansnode = initialnode;
         } else {
             pq.insert(initialnode);
-            SolverHelper();
+            solverhelper();
         }
     }
 
@@ -92,11 +92,11 @@ public class Solver {
             anslist.add(newnode.prenode);
             newnode = newnode.prenode;
         }
-        boardIterable iter = new boardIterable();
+        Boarditerable iter = new Boarditerable();
         return iter;
     }
 
-    private SearchNode SolverHelper() {
+    private SearchNode solverhelper() {
         while (true) {
             SearchNode node = pq.delMin();
             if (node.board.isGoal()) {
