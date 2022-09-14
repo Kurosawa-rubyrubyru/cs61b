@@ -1,92 +1,115 @@
 package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
+
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Iterator;
 
 public class Solver {
-    private class SearchNode implements Comparable<SearchNode> {
-        private WorldState state;
-        private int moves;
-        private SearchNode pre;
-        public SearchNode(WorldState s, int m, SearchNode p) {
-            state = s;
-            moves = m;
-            pre = p;;
-        }
 
-        public WorldState getState() {
-            return state;
-        }
+    private class Boarditerable implements Iterable<WorldState> {
+        private int id = anslist.size();
 
-        public int getMoves() {
-            return moves;
-        }
+        public Iterator<WorldState> iterator() {
+            return new Iterator<WorldState>() {
+                public boolean hasNext() {
+                    return (id != 0);
+                }
 
-        public SearchNode getPre() {
-            return pre;
-        }
-
-        @Override
-        public int compareTo(SearchNode o) {
-            return this.moves + this.state.estimatedDistanceToGoal() - o.moves - o.state.estimatedDistanceToGoal();
+                public WorldState next() {
+                    id -= 1;
+                    return anslist.get(id).board;
+                }
+            };
         }
     }
 
-    private MinPQ<SearchNode> openNodes = new MinPQ<>();
-    private List<WorldState> bestSolution;
-    private int totMoves;
+    private class SearchNode {
+        private WorldState board;
+        private int times;
+        private SearchNode prenode;
 
-    /** After solving the puzzle, cache the answer for later use. */
-    private void getAnswer(SearchNode goal) {
-        totMoves = goal.moves;
-        bestSolution = new ArrayList<>();
-        SearchNode p = goal;
-        while (p != null) {
-            bestSolution.add(p.state);
-            p = p.pre;
+        public SearchNode(WorldState board, int times, SearchNode prenode) {
+            this.board = board;
+            this.times = times;
+            this.prenode = prenode;
         }
     }
 
-    /** Constructor which solves the puzzle, computing
-     * everything necessary for moves() and solution() to
-     * not have to solve the problem again. Solves the
-     * puzzle using the A* algorithm. Assumes a solution exists.
-     */
+    private MinPQ<SearchNode> pq;
+
+    private SearchNode ansnode;
+
+    private ArrayList<SearchNode> anslist;
+
+//    private Map<String, Integer> boardmap = new HashMap<>();
+
     public Solver(WorldState initial) {
-        openNodes.insert(new SearchNode(initial, 0, null));
+        pq = new MinPQ<SearchNode>(new Comparator<SearchNode>() {
+//            private int s1ans;
+//            private int s2ans;
+
+            public int compare(SearchNode s1, SearchNode s2) {
+//                String s1s = s1.board.toString();
+//                if (boardmap.containsKey(s1s)) {
+//                    s1ans = boardmap.get(s1s);
+//                } else {
+//                    s1ans = s1.board.estimatedDistanceToGoal();
+//                    boardmap.put(s1s, s1ans);
+//                }
+//                String s2s = s2.board.toString();
+//                if (boardmap.containsKey(s2s)) {
+//                    s2ans = boardmap.get(s2s);
+//                } else {
+//                    s2ans = s2.board.estimatedDistanceToGoal();
+//                    boardmap.put(s2s, s2ans);
+//
+//                }
+                return s1.times + s1.board.estimatedDistanceToGoal()
+                        - s2.times - s2.board.estimatedDistanceToGoal();
+            }
+        });
+        SearchNode initialnode = new SearchNode(initial, 0, null);
+        if (initialnode.board.isGoal()) {
+            ansnode = initialnode;
+        } else {
+            pq.insert(initialnode);
+            solverhelper();
+        }
+    }
+
+    public int moves() {
+        return ansnode.times;
+    }
+
+    public Iterable<WorldState> solution() {
+        anslist = new ArrayList<>();
+        anslist.add(ansnode);
+        SearchNode newnode = ansnode;
+        while (newnode.prenode != null) {
+            anslist.add(newnode.prenode);
+            newnode = newnode.prenode;
+        }
+        Boarditerable iter = new Boarditerable();
+        return iter;
+    }
+
+    private SearchNode solverhelper() {
         while (true) {
-            SearchNode node = openNodes.delMin();
-            if (node.state.isGoal()) {
-                getAnswer(node);
-                return;
+            SearchNode node = pq.delMin();
+            if (node.board.isGoal()) {
+                ansnode = node;
+                return ansnode;
             } else {
-                for (WorldState neighbour : node.state.neighbors()) {
-                    if (node.pre == null || !neighbour.equals(node.pre.state)) {
-                        openNodes.insert(new SearchNode(neighbour, node.moves + 1, node));
+                Iterator<WorldState> ns = node.board.neighbors().iterator();
+                while (ns.hasNext()) {
+                    WorldState next = ns.next();
+                    if (node.prenode == null || !(node.prenode.board.equals(next))) {
+                        pq.insert(new SearchNode(next, node.times + 1, node));
                     }
                 }
             }
         }
-    }
-
-    /** Returns the minimum number of moves to solve the puzzle starting
-     * at the initial WorldState.
-     */
-    public int moves() {
-        return totMoves;
-    }
-
-    /** Returns a sequence of WorldStates from the initial WorldState
-     * to the solution.
-     */
-    public Iterable<WorldState> solution() {
-        List<WorldState> ret = new ArrayList<>();
-        for (int i = totMoves; i >= 0; i--) {
-            ret.add(bestSolution.get(i));
-        }
-        return ret;
     }
 }
