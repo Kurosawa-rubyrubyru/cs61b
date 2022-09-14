@@ -99,10 +99,6 @@ public class Board implements WorldState {
         return manhattan();
     }
 
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     public boolean equals(Object y) {
         if (y.getClass() == this.getClass()) {
             for (int i = 0; i < board[0].length; i += 1) {
@@ -112,17 +108,10 @@ public class Board implements WorldState {
                     }
                 }
             }
-            for (int i = 0; i < ((Board) y).board[0].length; i += 1) {
-                for (int j = 0; j < ((Board) y).board[0].length; j += 1) {
-                    if (this.board[i][j] != ((Board) y).board[i][j]) {
-                        return false;
-                    }
-                }
-            }
-            return true;
         } else {
-            return (this.board.equals(((Board) y).board));
+            throw new UnsupportedOperationException("TypeError");
         }
+        return true;
     }
 
     public String toString() {
@@ -140,4 +129,3 @@ public class Board implements WorldState {
     }
 
 }
-

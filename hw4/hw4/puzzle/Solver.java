@@ -8,10 +8,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+public final class Solver {
 
-public class Solver {
-
-    private class boarditerable implements Iterable<WorldState> {
+    private class boardIterable implements Iterable<WorldState> {
         private int id = anslist.size();
 
         public Iterator<WorldState> iterator() {
@@ -77,7 +76,7 @@ public class Solver {
             ansnode = initialnode;
         } else {
             pq.insert(initialnode);
-            solverhelper();
+            SolverHelper();
         }
     }
 
@@ -93,11 +92,11 @@ public class Solver {
             anslist.add(newnode.prenode);
             newnode = newnode.prenode;
         }
-        boarditerable iter = new boarditerable();
+        boardIterable iter = new boardIterable();
         return iter;
     }
 
-    private SearchNode solverhelper() {
+    private SearchNode SolverHelper() {
         while (true) {
             SearchNode node = pq.delMin();
             if (node.board.isGoal()) {
