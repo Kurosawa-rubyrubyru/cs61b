@@ -100,6 +100,12 @@ public class Board implements WorldState {
     }
 
     public boolean equals(Object y) {
+        if (y == this) {
+            return true;
+        }
+        if (y == null) {
+            return false;
+        }
         if (y.getClass() == this.getClass()) {
             if (board[0].length == ((Board) y).board[0].length) {
                 for (int i = 0; i < board[0].length; i += 1) {
@@ -114,7 +120,7 @@ public class Board implements WorldState {
                 return false;
             }
         } else {
-            return (this.board.toString().equals(((Board) y).board.toString()));
+            return false;
         }
     }
 
