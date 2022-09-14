@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public final class Solver {
+public class Solver {
 
     private class boardIterable implements Iterable<WorldState> {
         private int id = anslist.size();

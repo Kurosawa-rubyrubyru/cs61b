@@ -101,17 +101,23 @@ public class Board implements WorldState {
 
     public boolean equals(Object y) {
         if (y.getClass() == this.getClass()) {
-            for (int i = 0; i < Math.max(board[0].length, ((Board) y).board[0].length); i += 1) {
-                for (int j = 0; j < Math.max(board[0].length, ((Board) y).board[0].length); j += 1) {
-                    if (this.board[i][j] != ((Board) y).board[i][j]) {
-                        return false;
+            if (board[0].length == ((Board) y).board[0].length) {
+                for (int i = 0; i < Math.max(board[0].length, ((Board) y).board[0].length); i += 1) {
+                    for (int j = 0; j < Math.max(board[0].length, ((Board) y).board[0].length); j += 1) {
+                        if (this.board[i][j] != ((Board) y).board[i][j]) {
+                            return false;
+                        }
                     }
                 }
             }
         } else {
-            throw new UnsupportedOperationException("TypeError");
+            return (this.board.equals(((Board) y).board));
         }
         return true;
+    }
+
+    public int hashCode() {
+        return super.hashCode();
     }
 
     public String toString() {
