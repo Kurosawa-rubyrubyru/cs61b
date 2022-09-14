@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.MinPQ;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 public class Solver {
 
@@ -66,6 +67,7 @@ public class Solver {
 //                    boardmap.put(s2s, s2ans);
 //
 //                }
+                //这个方法不需要做优化，而且不能使用toString做键！！
                 return s1.times + s1.board.estimatedDistanceToGoal()
                         - s2.times - s2.board.estimatedDistanceToGoal();
             }
@@ -84,6 +86,15 @@ public class Solver {
     }
 
     public Iterable<WorldState> solution() {
+//        anslist = new ArrayList<>();
+//        anslist.add(ansnode);
+//        SearchNode newnode = ansnode;
+//        while (newnode.prenode != null) {
+//            anslist.add(newnode.prenode);
+//            newnode = newnode.prenode;
+//        }
+//        Boarditerable iter = new Boarditerable();
+//        return iter;
         anslist = new ArrayList<>();
         anslist.add(ansnode);
         SearchNode newnode = ansnode;
@@ -91,8 +102,12 @@ public class Solver {
             anslist.add(newnode.prenode);
             newnode = newnode.prenode;
         }
-        Boarditerable iter = new Boarditerable();
-        return iter;
+//        Boarditerable iter = new Boarditerable();
+        List<WorldState> ansiter = new ArrayList<>();
+        for (int i = moves(); i >= 0; i--) {
+            ansiter.add(anslist.get(i).board);
+        }
+        return ansiter;
     }
 
     private SearchNode solverhelper() {
