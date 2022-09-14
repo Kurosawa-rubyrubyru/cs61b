@@ -2,11 +2,7 @@ package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public final class Solver {
 
