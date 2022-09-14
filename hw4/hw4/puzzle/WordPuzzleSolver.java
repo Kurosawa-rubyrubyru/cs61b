@@ -1,5 +1,5 @@
 package hw4.puzzle;
-
+import edu.princeton.cs.algs4.StdOut;
 
 public class WordPuzzleSolver {
     /***********************************************************************
@@ -13,9 +13,9 @@ public class WordPuzzleSolver {
         Word startState = new Word(start, goal);
         Solver solver = new Solver(startState);
 
-        System.out.println("Minimum number of moves = " + solver.moves());
+        StdOut.println("Minimum number of moves = " + solver.moves());
         for (WorldState ws : solver.solution()) {
-            System.out.println(ws);
+            StdOut.println(ws);
         }
     }
 }

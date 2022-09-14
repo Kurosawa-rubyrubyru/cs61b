@@ -1,14 +1,13 @@
 package hw4.puzzle;
-
 import edu.princeton.cs.algs4.In;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-/*
+/**
  * Local tester for the Solver class. You'll need to uncomment
  * in order to run the tests.
  */
@@ -17,7 +16,6 @@ public class TestSolver {
         final String name;
         final Board board;
         final int numMoves;
-
         public BoardPuzzleSolution(String n, Board b, int m) {
             name = n;
             board = b;
@@ -30,7 +28,6 @@ public class TestSolver {
         final String goal;
         final int numMoves;
         final List<String> possibleSolution;
-
         public WordPuzzleSolution(String s, String g, int m, List<String> ps) {
             start = s;
             goal = g;
@@ -39,14 +36,13 @@ public class TestSolver {
         }
     }
 
-    /**
-     * Takes as input a word puzzle string and returns a WordPuzzle
-     * object. For example, "kept, tent, kept-kent-tent, 13"
-     * would return a WordPuzzle with start = kept, goal = tent,
-     * numMoves = 2, and possible solution {"kept", "kent", "tent"}.
-     * The last value is not used by this class, and indicates
-     * the number of enqueues used by the reference solution to
-     * solve the puzzle. Returns null if String isn't a valid word puzzle.
+    /** Takes as input a word puzzle string and returns a WordPuzzle
+     *  object. For example, "kept, tent, kept-kent-tent, 13"
+     *  would return a WordPuzzle with start = kept, goal = tent,
+     *  numMoves = 2, and possible solution {"kept", "kent", "tent"}.
+     *  The last value is not used by this class, and indicates
+     *  the number of enqueues used by the reference solution to
+     *  solve the puzzle. Returns null if String isn't a valid word puzzle.
      */
     public static WordPuzzleSolution stringToWordPuzzle(String wp) {
         try {
@@ -66,7 +62,6 @@ public class TestSolver {
         }
     }
 
-    //  Uncomment once you've written Solver.
     @Test(timeout = 10000)
     public void testWordPuzzles() {
         In in = new In("input/word_puzzles.txt");
@@ -78,15 +73,13 @@ public class TestSolver {
             Word w = new Word(wps.start, wps.goal);
             Solver s = new Solver(w);
             String errorMessage = "Wrong number of moves solving "
-                    + wps.start + "->" + wps.goal;
+                                  + wps.start + "->" + wps.goal;
 
             assertEquals(errorMessage, wps.numMoves, s.moves());
         }
     }
 
-
-    // Uncomment everything in this block once you've written Board.
-    public static Board readBoard(String filename) {
+     public static Board readBoard(String filename) {
         In in = new In(filename);
         int N = in.readInt();
         int[][] tiles = new int[N][N];
@@ -99,7 +92,7 @@ public class TestSolver {
         return start;
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test2x2BoardPuzzles() {
         for (int i = 0; i <= 6; i += 1) {
             String pnum = String.format("%02d", i);
@@ -109,7 +102,6 @@ public class TestSolver {
             BoardPuzzleSolution bps = new BoardPuzzleSolution(puzzleName, b, numMoves);
             Solver s = new Solver(b);
             assertEquals("Wrong number of moves on " + puzzleName, bps.numMoves, s.moves());
-            System.out.println(i);
         }
     }
 
@@ -123,8 +115,10 @@ public class TestSolver {
             BoardPuzzleSolution bps = new BoardPuzzleSolution(puzzleName, b, numMoves);
             Solver s = new Solver(b);
             assertEquals("Wrong number of moves on " + puzzleName, bps.numMoves, s.moves());
+            System.out.println("puzzle " + i + " solved !");
         }
     }
+
 
     @Test(timeout = 20000)
     public void test4x4BoardPuzzles() {
@@ -150,5 +144,16 @@ public class TestSolver {
             Solver s = new Solver(b);
             assertEquals("Wrong number of moves on " + puzzleName, bps.numMoves, s.moves());
         }
+    }
+
+    @Test(timeout = 10000)
+    public void testManhattan() {
+        int[][] b = new int[2][2];
+        b[0][0] = 2;
+        b[0][1] = 0;
+        b[1][0] = 1;
+        b[1][1] = 3;
+        Board bd = new Board(b);
+        assertEquals(3, bd.estimatedDistanceToGoal());
     }
 }
