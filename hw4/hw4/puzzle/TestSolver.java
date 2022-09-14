@@ -1,11 +1,12 @@
 package hw4.puzzle;
+
 import edu.princeton.cs.algs4.In;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Local tester for the Solver class. You'll need to uncomment
@@ -16,6 +17,7 @@ public class TestSolver {
         final String name;
         final Board board;
         final int numMoves;
+
         public BoardPuzzleSolution(String n, Board b, int m) {
             name = n;
             board = b;
@@ -28,6 +30,7 @@ public class TestSolver {
         final String goal;
         final int numMoves;
         final List<String> possibleSolution;
+
         public WordPuzzleSolution(String s, String g, int m, List<String> ps) {
             start = s;
             goal = g;
@@ -36,13 +39,14 @@ public class TestSolver {
         }
     }
 
-    /** Takes as input a word puzzle string and returns a WordPuzzle
-     *  object. For example, "kept, tent, kept-kent-tent, 13"
-     *  would return a WordPuzzle with start = kept, goal = tent,
-     *  numMoves = 2, and possible solution {"kept", "kent", "tent"}.
-     *  The last value is not used by this class, and indicates
-     *  the number of enqueues used by the reference solution to
-     *  solve the puzzle. Returns null if String isn't a valid word puzzle.
+    /**
+     * Takes as input a word puzzle string and returns a WordPuzzle
+     * object. For example, "kept, tent, kept-kent-tent, 13"
+     * would return a WordPuzzle with start = kept, goal = tent,
+     * numMoves = 2, and possible solution {"kept", "kent", "tent"}.
+     * The last value is not used by this class, and indicates
+     * the number of enqueues used by the reference solution to
+     * solve the puzzle. Returns null if String isn't a valid word puzzle.
      */
     public static WordPuzzleSolution stringToWordPuzzle(String wp) {
         try {
@@ -62,7 +66,7 @@ public class TestSolver {
         }
     }
 
-/* Uncomment once you've written Solver.
+    //Uncomment once you've written Solver.
     @Test(timeout = 10000)
     public void testWordPuzzles() {
         In in = new In("input/word_puzzles.txt");
@@ -74,15 +78,15 @@ public class TestSolver {
             Word w = new Word(wps.start, wps.goal);
             Solver s = new Solver(w);
             String errorMessage = "Wrong number of moves solving "
-                                  + wps.start + "->" + wps.goal;
+                    + wps.start + "->" + wps.goal;
 
             assertEquals(errorMessage, wps.numMoves, s.moves());
         }
     }
- */
 
- /* Uncomment everything in this block once you've written Board.
-     public static Board readBoard(String filename) {
+
+    // Uncomment everything in this block once you've written Board.
+    public static Board readBoard(String filename) {
         In in = new In(filename);
         int N = in.readInt();
         int[][] tiles = new int[N][N];
@@ -108,9 +112,11 @@ public class TestSolver {
         }
     }
 
-    @Test(timeout = 40000)
+    //    @Test(timeout = 40000)
+    @Test
+
     public void test3x3BoardPuzzles() {
-        for (int i = 0; i <= 30; i += 1) {
+        for (int i = 30; i <= 30; i += 1) {
             String pnum = String.format("%02d", i);
             String puzzleName = "input/puzzle3x3-" + pnum + ".txt";
             Board b = readBoard(puzzleName);
@@ -121,7 +127,9 @@ public class TestSolver {
         }
     }
 
-    @Test(timeout = 20000)
+    //    @Test(timeout = 20000)
+    @Test(timeout = 100000)
+
     public void test4x4BoardPuzzles() {
         for (int i = 0; i <= 30; i += 1) {
             String pnum = String.format("%02d", i);
@@ -134,7 +142,8 @@ public class TestSolver {
         }
     }
 
-    @Test(timeout = 20000)
+    //    @Test(timeout = 20000)
+    @Test(timeout = 100000)
     public void testVariousPuzzles() {
         for (int i = 0; i <= 31; i += 1) {
             String pnum = String.format("%02d", i);
@@ -145,5 +154,5 @@ public class TestSolver {
             Solver s = new Solver(b);
             assertEquals("Wrong number of moves on " + puzzleName, bps.numMoves, s.moves());
         }
-    }*/
+    }
 }

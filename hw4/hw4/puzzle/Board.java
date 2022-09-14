@@ -82,12 +82,12 @@ public class Board implements WorldState {
         int nowx, nowy, truex, truey;
         for (int i = 0; i < board[0].length; i += 1) {
             for (int j = 0; j < board[0].length; j += 1) {
-                if (i < board.length - 1 || j < board.length - 1) {
+                if (board[i][j] != 0) {
                     nowx = i;
                     nowy = j;
                     truex = (board[i][j] - 1) / board[0].length;
                     truey = (board[i][j] - 1) % board[0].length;
-                    summanhattan += Math.abs(nowx - truex) + Math.abs(nowy - truey);
+                    summanhattan += (Math.abs(nowx - truex) + Math.abs(nowy - truey));
                 }
             }
         }
@@ -101,8 +101,8 @@ public class Board implements WorldState {
 
     public boolean equals(Object y) {
         if (y.getClass() == this.getClass()) {
-            for (int i = 0; i < board[0].length; i += 1) {
-                for (int j = 0; j < board[0].length; j += 1) {
+            for (int i = 0; i < Math.max(board[0].length, ((Board) y).board[0].length); i += 1) {
+                for (int j = 0; j < Math.max(board[0].length, ((Board) y).board[0].length); j += 1) {
                     if (this.board[i][j] != ((Board) y).board[i][j]) {
                         return false;
                     }
