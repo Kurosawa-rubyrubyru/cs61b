@@ -80,6 +80,9 @@ public class MergeSort {
             Queue<Item> items) {
         Item goal;
         Queue<Item> newitem = new Queue<>();
+        if(items.size()==0){
+            return items;
+        }
         for (int i = 0; i < items.size(); i++) {
             goal = items.dequeue();
             items.enqueue(goal);
