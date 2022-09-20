@@ -65,12 +65,17 @@ public class CountingSort {
      * @param arr int array that will be sorted
      */
     public static int[] betterCountingSort(int[] arr) {
+        int[] forwardarr = new int[arr.length];
+        for (int i = 0; i < arr.length; i += 1) {
+            forwardarr[i] = arr[i];
+        }
         for (int i = 0; i < arr.length; i += 1) {
             arr[i] += 1024;
         }
         int max = Integer.MIN_VALUE;
         for (int i : arr) {
             max = max > i ? max : i;
+
         }
 
         // gather all the counts for each value
@@ -108,7 +113,9 @@ public class CountingSort {
         for (int i = 0; i < sorted2.length; i += 1) {
             sorted2[i] -= 1024;
         }
-
+        for (int i = 0; i < arr.length; i += 1) {
+            arr[i] = forwardarr[i];
+        }
         // return the sorted array
         return sorted;
     }
