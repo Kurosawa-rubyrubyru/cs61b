@@ -16,18 +16,19 @@ public class RadixSort {
     public static String[] sort(String[] asciis) {
         // tODO: Implement LSD Sort
         int lengthmax = 0;
+        int length = asciis.length;
         for (String s : asciis) {
             lengthmax = Math.max(lengthmax, s.length());
         }
         int[] counts = new int[257];
         int[] pos = new int[257];
         int newpos;
-        String[] sorted = new String[asciis.length];
-        String[] newstring = new String[asciis.length];
-        for (int i = asciis.length - 1; i >= 0; i -= 1) {
+        String[] sorted = new String[length];
+        String[] newstring = new String[length];
+        for (int i = length - 1; i >= 0; i -= 1) {
             newstring[i] = asciis[i];
         }
-        for (int i = asciis.length - 1; i >= 0; i -= 1) {
+        for (int i = length - 1; i >= 0; i -= 1) {
             for (String s : newstring) {
                 if (i < s.length()) {
                     counts[(s.charAt(i)) + 1] += 1;
@@ -37,7 +38,7 @@ public class RadixSort {
 
             }
             pos[0] = 0;
-            for (int j = 1; j < counts.length; j += 1) {
+            for (int j = 1; j < 257; j += 1) {
                 pos[j] = pos[j - 1] + counts[j - 1];
             }
             for (String s : newstring) {
@@ -50,7 +51,7 @@ public class RadixSort {
                 pos[newpos] = pos[newpos] + 1;
 
             }
-            for (int j = 0; j < asciis.length; j += 1) {
+            for (int j = 0; j < length; j += 1) {
                 newstring[j] = sorted[j];
             }
             pos = new int[257];
