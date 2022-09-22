@@ -15,10 +15,49 @@ public class RadixSort {
      */
     public static String[] sort(String[] asciis) {
         // tODO: Implement LSD Sort
-        int N = asciis.length;
-        int R = 256;
-        String[] aux = new String[N];
-        return asciis;
+        int lengthmax = 0;
+        for (String s : asciis) {
+            lengthmax = Math.max(lengthmax, s.length());
+        }
+        int[] counts = new int[257];
+        int[] pos = new int[257];
+        int newpos;
+        String[] sorted = new String[asciis.length];
+        String[] newstring = new String[asciis.length];
+        for (int i = asciis.length - 1; i >= 0; i -= 1) {
+            newstring[i] = asciis[i];
+        }
+        for (int i = asciis.length - 1; i >= 0; i -= 1) {
+            for (String s : newstring) {
+                if (i < s.length()) {
+                    counts[(s.charAt(i)) + 1] += 1;
+                } else {
+                    counts[0] += 1;
+                }
+
+            }
+            pos[0] = 0;
+            for (int j = 1; j < counts.length; j += 1) {
+                pos[j] = pos[j - 1] + counts[j - 1];
+            }
+            for (String s : newstring) {
+                if (i < s.length()) {
+                    newpos = s.charAt(i) + 1;
+                } else {
+                    newpos = 0;
+                }
+                sorted[pos[newpos]] = s;
+                pos[newpos] = pos[newpos] + 1;
+
+            }
+            for (int j = 0; j < asciis.length; j += 1) {
+                newstring[j] = sorted[j];
+            }
+            pos = new int[257];
+            counts = new int[257];
+        }
+
+        return sorted;
 
 
     }
@@ -48,4 +87,9 @@ public class RadixSort {
         // Optional MSD helper method for optional MSD radix sort
         return;
     }
+
+//    public static void main(String[] args) {
+//        String[] tester = {"a", "b", "aaa", "bbb", "aba", "bab", "abb", "baa", "bba", "aab"};
+//        sort(tester);
+//    }
 }
