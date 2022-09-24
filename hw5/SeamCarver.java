@@ -1,6 +1,6 @@
 import edu.princeton.cs.algs4.Picture;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class SeamCarver {
 
@@ -81,12 +81,14 @@ public class SeamCarver {
                     pre[i][j] = i;
 
                 } else {
-                    if (i == width - 1) {
+                    if (width == 1) {
+                        mymin = myMin(19999999, sum[i][j - 1], 199999999);
+                    } else if (i == width - 1) {
                         mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], 199999999);
                     } else if (i == 0) {
                         mymin = myMin(199999999, sum[i][j - 1], sum[i + 1][j - 1]);
                     } else {
-                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], sum[(i + 1) % width][j - 1]);
+                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], sum[i + 1][j - 1]);
                     }
                     sum[i][j] = sum[i - 1 + mymin[0]][j - 1] + energy[i][j];
                     pre[i][j] = i - 1 + mymin[0];
@@ -124,12 +126,14 @@ public class SeamCarver {
                     pre[i][j] = i;
 
                 } else {
-                    if (i == width - 1) {
+                    if (width == 1) {
+                        mymin = myMin(19999999, sum[i][j - 1], 199999999);
+                    } else if (i == width - 1) {
                         mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], 199999999);
                     } else if (i == 0) {
                         mymin = myMin(199999999, sum[i][j - 1], sum[i + 1][j - 1]);
                     } else {
-                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], sum[(i + 1) % width][j - 1]);
+                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], sum[i + 1][j - 1]);
                     }
                     sum[i][j] = sum[i - 1 + mymin[0]][j - 1] + energy[i][j];
                     pre[i][j] = i - 1 + mymin[0];
@@ -160,7 +164,7 @@ public class SeamCarver {
     }   // remove horizontal seam from picture
 
     public void removeVerticalSeam(int[] seam) {
-        picture = SeamRemover.removeHorizontalSeam(picture, seam);
+        picture = SeamRemover.removeVerticalSeam(picture, seam);
     }  // remove vertical seam from picture
 
     private int[] myMin(int a, int b, int c) {
