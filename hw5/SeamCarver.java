@@ -1,6 +1,6 @@
 import edu.princeton.cs.algs4.Picture;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class SeamCarver {
 
@@ -13,7 +13,7 @@ public class SeamCarver {
         width = picture.width();
         height = picture.height();
         energy = new int[width][height];
-        this.picture = picture;
+        this.picture = new Picture(picture);
         Color color1, color2, color3, color4;
         for (int i = 0; i < width; i += 1) {
             for (int j = 0; j < height; j += 1) {
@@ -29,18 +29,19 @@ public class SeamCarver {
                     color3 = picture.get(i, height - 1);
                 }
                 color4 = picture.get(i, (j + 1) % height);
-                energy[i][j] += (color1.getRed() - color2.getRed()) * (color1.getRed() - color2.getRed());
-                energy[i][j] += (color1.getGreen() - color2.getGreen()) * (color1.getGreen() - color2.getGreen());
-                energy[i][j] += (color1.getBlue() - color2.getBlue()) * (color1.getBlue() - color2.getBlue());
-                energy[i][j] += (color3.getRed() - color4.getRed()) * (color3.getRed() - color4.getRed());
-                energy[i][j] += (color3.getGreen() - color4.getGreen()) * (color3.getGreen() - color4.getGreen());
-                energy[i][j] += (color3.getBlue() - color4.getBlue()) * (color3.getBlue() - color4.getBlue());
+                energy[i][j] += Math.pow((color1.getRed() - color2.getRed()), 2);
+                energy[i][j] += Math.pow((color1.getGreen() - color2.getGreen()), 2);
+                energy[i][j] += Math.pow((color1.getBlue() - color2.getBlue()), 2);
+                energy[i][j] += Math.pow((color3.getRed() - color4.getRed()), 2);
+                energy[i][j] += Math.pow((color3.getGreen() - color4.getGreen()), 2);
+                energy[i][j] += Math.pow((color3.getBlue() - color4.getBlue()), 2);
             }
         }
     }
 
     public Picture picture() {
-        return picture;
+        Picture newpicture = new Picture(picture);
+        return newpicture;
     }                       // current picture
 
     public int width() {
@@ -81,24 +82,18 @@ public class SeamCarver {
 
                 } else {
                     if (i == width - 1) {
-                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], 99999999);
+                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], 199999999);
                     } else if (i == 0) {
-                        mymin = myMin(99999999, sum[i][j - 1], sum[i + 1][j - 1]);
+                        mymin = myMin(199999999, sum[i][j - 1], sum[i + 1][j - 1]);
                     } else {
                         mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], sum[(i + 1) % width][j - 1]);
                     }
-                    if (i - 1 + mymin[0] == -1) {
-                        sum[i][j] = sum[width - 1][j - 1] + energy[i][j];
-                        pre[i][j] = width - 1;
-                    } else {
-                        sum[i][j] = sum[(i - 1 + mymin[0]) % width][j - 1] + energy[i][j];
-                        pre[i][j] = (i - 1 + mymin[0]) % width;
-
-                    }
+                    sum[i][j] = sum[i - 1 + mymin[0]][j - 1] + energy[i][j];
+                    pre[i][j] = i - 1 + mymin[0];
                 }
             }
         }
-        int min = 99999999;
+        int min = 199999999;
         int anspos = 0;
         for (int i = 0; i < width; i += 1) {
             if (sum[i][height - 1] < min) {
@@ -110,6 +105,10 @@ public class SeamCarver {
             ans[i] = anspos;
             anspos = pre[anspos][i];
         }
+        energy = oldpicture;
+        trans = height;
+        height = width;
+        width = trans;
         return ans;
     }          // sequence of indices for horizontal seam
 
@@ -126,24 +125,19 @@ public class SeamCarver {
 
                 } else {
                     if (i == width - 1) {
-                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], 99999999);
+                        mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], 199999999);
                     } else if (i == 0) {
-                        mymin = myMin(99999999, sum[i][j - 1], sum[i + 1][j - 1]);
+                        mymin = myMin(199999999, sum[i][j - 1], sum[i + 1][j - 1]);
                     } else {
                         mymin = myMin(sum[i - 1][j - 1], sum[i][j - 1], sum[(i + 1) % width][j - 1]);
                     }
-                    if (i - 1 + mymin[0] == -1) {
-                        sum[i][j] = sum[width - 1][j - 1] + energy[i][j];
-                        pre[i][j] = width - 1;
-                    } else {
-                        sum[i][j] = sum[(i - 1 + mymin[0]) % width][j - 1] + energy[i][j];
-                        pre[i][j] = (i - 1 + mymin[0]) % width;
+                    sum[i][j] = sum[i - 1 + mymin[0]][j - 1] + energy[i][j];
+                    pre[i][j] = i - 1 + mymin[0];
 
-                    }
                 }
             }
         }
-        int min = 99999999;
+        int min = 199999999;
         int anspos = 0;
         for (int i = 0; i < width; i += 1) {
             if (sum[i][height - 1] < min) {
