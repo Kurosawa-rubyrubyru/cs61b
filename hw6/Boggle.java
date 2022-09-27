@@ -64,7 +64,8 @@ public class Boggle {
             for (int i = 0; i < line.length(); i += 1) {
                 nowchar = line.charAt(i);
                 if (now.nexttree.get(nowchar) == null) {
-                    now.nexttree.put(nowchar, new Node((i == line.length() - 1), line.substring(0, i + 1)));
+                    now.nexttree.put(nowchar, new Node((i == line.length() - 1),
+                            line.substring(0, i + 1)));
                     now = now.nexttree.get(nowchar);
                 } else {
                     now = now.nexttree.get(nowchar);
@@ -110,13 +111,17 @@ public class Boggle {
                 nowposition.add(i);
                 nowposition.add(j);
                 position.add(nowposition);
-                ansqueue.enqueue(new SearchNode(root.nexttree.get(b[i][j]), position));
+                if (root.nexttree.get(b[i][j]) != null) {
+                    ansqueue.enqueue(new SearchNode(root.nexttree.get(b[i][j]), position));
+                } else {
+                    continue;
+                }
                 while (ansqueue.size() > 0) {
                     nownode = ansqueue.dequeue();
                     nextnode = getNewNode(nownode);
                     for (int r = 0; r < nextnode.size(); r += 1) {
                         find = nextnode.get(r);
-                        if (find.nownode.end == true) {
+                        if (find.nownode.end) {
                             ans.add(find.nownode.nowstring);
                         }
                         ansqueue.enqueue(find);
@@ -233,8 +238,8 @@ public class Boggle {
         }
     }
 
-//    public static void main(String[] args) {
-//        List<String> ans = solve(7, "exampleBoard.txt");
-//        System.out.println(ans);
-//    }
+    public static void main(String[] args) {
+        List<String> ans = solve(7, "exampleBoard.txt");
+        System.out.println(ans);
+    }
 }
