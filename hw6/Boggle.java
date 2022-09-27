@@ -72,9 +72,7 @@ public class Boggle {
                 }
             }
         }
-
         //----------构建字符矩阵---------------
-
         In board = new In(boardFilePath);
         line = board.readLine();
         width = line.length();
@@ -96,8 +94,6 @@ public class Boggle {
             }
             nowheight += 1;
         }
-
-
         //----------求解---------------
         HashSet<String> ans = new HashSet<>();
         ArrayList<SearchNode> nextnode = new ArrayList<>();
@@ -129,31 +125,7 @@ public class Boggle {
                 }
             }
         }
-        ArrayList<String> finalans = new ArrayList<>();
-        for (String s : ans) {
-            finalans.add(s);
-        }
-        Collections.sort(finalans, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                if (s1.length() > s2.length()) {
-                    return -1;
-                } else if (s1.length() < s2.length()) {
-                    return 1;
-                } else {
-                    for (int i = 0; i < s1.length(); i += 1) {
-                        if (s1.charAt(i) < s2.charAt(i)) {
-                            return -1;
-                        }
-                        if (s1.charAt(i) > s2.charAt(i)) {
-                            return 1;
-                        }
-                    }
-                    return 0;
-                }
-            }
-        });
-        return finalans.subList(0, k);
+        return findAnswer(ans, k);
     }
 
 
@@ -215,7 +187,8 @@ public class Boggle {
         return ans;
     }
 
-    private static ArrayList<ArrayList<Integer>> check(ArrayList<ArrayList<Integer>> oldposition, int i, int j) {
+    private static ArrayList<ArrayList<Integer>> check(
+            ArrayList<ArrayList<Integer>> oldposition, int i, int j) {
         ArrayList<ArrayList<Integer>> newposition = new ArrayList<>();
         boolean check = true;
         for (ArrayList<Integer> a : oldposition) {
@@ -235,6 +208,38 @@ public class Boggle {
             return newposition;
         } else {
             return oldposition;
+        }
+    }
+
+    private static List<String> findAnswer(HashSet<String> ans, int k) {
+        ArrayList<String> finalans = new ArrayList<>();
+        for (String s : ans) {
+            finalans.add(s);
+        }
+        Collections.sort(finalans, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                if (s1.length() > s2.length()) {
+                    return -1;
+                } else if (s1.length() < s2.length()) {
+                    return 1;
+                } else {
+                    for (int i = 0; i < s1.length(); i += 1) {
+                        if (s1.charAt(i) < s2.charAt(i)) {
+                            return -1;
+                        }
+                        if (s1.charAt(i) > s2.charAt(i)) {
+                            return 1;
+                        }
+                    }
+                    return 0;
+                }
+            }
+        });
+        if (finalans.size() > k) {
+            return finalans.subList(0, k);
+        } else {
+            return finalans;
         }
     }
 
