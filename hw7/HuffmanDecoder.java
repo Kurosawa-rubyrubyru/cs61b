@@ -11,11 +11,11 @@ public class HuffmanDecoder {
         ObjectReader or = new ObjectReader("trie.huf");
         Object x = (ArrayList<Integer>) or.readObject();
         Object y = (ArrayList<Character>) or.readObject();
-        ArrayList<Integer> IntegerList = (ArrayList<Integer>) x;
+        ArrayList<Integer> integerList = (ArrayList<Integer>) x;
         ArrayList<Character> charactersList = (ArrayList<Character>) y;
         Map<Character, Integer> frequencyTable = new HashMap<>();
-        for (int i = 0; i < IntegerList.size(); i += 1) {
-            frequencyTable.put(charactersList.get(i), IntegerList.get(i));
+        for (int i = 0; i < integerList.size(); i += 1) {
+            frequencyTable.put(charactersList.get(i), integerList.get(i));
         }
         trie = new BinaryTrie(frequencyTable);
         int start = 0;

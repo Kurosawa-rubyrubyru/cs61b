@@ -27,13 +27,13 @@ public class HuffmanEncoder {
         trie = new BinaryTrie(frequencyTable);
         Map<Character, BitSequence> yourTable = trie.buildLookupTable();
         ObjectWriter writer = new ObjectWriter("trie.huf");
-        ArrayList<Integer> IntegerList = new ArrayList<>();
+        ArrayList<Integer> integerList = new ArrayList<>();
         ArrayList<Character> charactersList = new ArrayList<>();
         for (Character c : yourTable.keySet()) {
-            IntegerList.add(frequencyTable.get(c));
+            integerList.add(frequencyTable.get(c));
             charactersList.add(c);
         }
-        writer.writeObject(IntegerList);
+        writer.writeObject(integerList);
         writer.writeObject(charactersList);
         BitSequence bitsequence = new BitSequence();
         List<BitSequence> sequences = new ArrayList<>();
