@@ -42,7 +42,8 @@ public class Rasterer {
      */
 
     /*
-    {lrlon=-122.2104604264636, ullon=-122.30410170759153, w=1085.0, h=566.0, ullat=37.870213571328854, lrlat=37.8318576119893}
+    {lrlon=-122.2104604264636, ullon=-122.30410170759153, w=1085.0, h=566.0,
+    ullat=37.870213571328854, lrlat=37.8318576119893}
     这意味着用户想要由经度 -122.2104604264636 和 -122.30410170759153 和纬度 37.870213571328854 和 37.8318576119893 ，
     并且他们希望它们显示在大约 1085 x 566 像素大小的窗口中. 我们将用户在地球上想要的显示位置称为 查询框 。
      */
@@ -55,18 +56,31 @@ public class Rasterer {
      (ROOT_LRLON - ROOT_ULLON)/TILE_SIZE，即经度单位数除以像素数。
      */
     private boolean check(Map<String, Double> params) {
-        if (params.get("lrlat") > MapServer.ROOT_ULLAT) return false;
-        if (params.get("lrlon") < MapServer.ROOT_ULLON) return false;
-        if (params.get("ullon") > MapServer.ROOT_LRLON) return false;
-        if (params.get("ullat") < MapServer.ROOT_LRLAT) return false;
-        if (params.get("ullat") < params.get("lrlat")) return false;
-        if (params.get("ullon") > params.get("lrlon")) return false;
+        if (params.get("lrlat") > MapServer.ROOT_ULLAT) {
+            return false;
+        }
+        if (params.get("lrlon") < MapServer.ROOT_ULLON) {
+            return false;
+        }
+        if (params.get("ullon") > MapServer.ROOT_LRLON) {
+            return false;
+        }
+        if (params.get("ullat") < MapServer.ROOT_LRLAT) {
+            return false;
+        }
+        if (params.get("ullat") < params.get("lrlat")) {
+            return false;
+        }
+        if (params.get("ullon") > params.get("lrlon")) {
+            return false;
+        }
         return true;
     }
 
     private int getDepth(Map<String, Double> params) {
         Double goalDpp = (params.get("lrlon") - params.get("ullon")) / ((double) (params.get("w")));
-        Double nowDpp = ((Double) (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON)) / (((Integer) (MapServer.TILE_SIZE)).doubleValue());
+        Double nowDpp = ((Double) (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON)) /
+                (((Integer) (MapServer.TILE_SIZE)).doubleValue());
         for (int i = 0; i <= 7; i += 1) {
             if (nowDpp < goalDpp) {
                 return i;
@@ -81,8 +95,10 @@ public class Rasterer {
         Map<String, Object> results = new HashMap<>();
         results.put("query_success", check(params));
         results.put("depth", getDepth(params));
-        Double lonDpp = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / (256.0 * Math.pow(2, (Integer) results.get("depth")));
-        Double latDpp = (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / (256.0 * Math.pow(2, (Integer) results.get("depth")));
+        Double lonDpp = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) /
+                (256.0 * Math.pow(2, (Integer) results.get("depth")));
+        Double latDpp = (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) /
+                (256.0 * Math.pow(2, (Integer) results.get("depth")));
 
         Double leftpp = (params.get("ullon") - MapServer.ROOT_ULLON) / lonDpp;
         Double rightpp = (params.get("lrlon") - MapServer.ROOT_ULLON) / lonDpp;
@@ -102,7 +118,8 @@ public class Rasterer {
         String[][] ans = new String[downpos - uppos + 1][rightpos - leftpos + 1];
         for (Integer x = leftpos; x <= rightpos; x += 1) {
             for (Integer y = uppos; y <= downpos; y += 1) {
-                ans[y - uppos][x - leftpos] = ("d" + results.get("depth").toString() + "_x" + x.toString() + "_y" + y.toString() + ".png");
+                ans[y - uppos][x - leftpos] = ("d" + results.get("depth").toString()
+                        + "_x" + x.toString() + "_y" + y.toString() + ".png");
             }
         }
         results.put("render_grid", ans);
