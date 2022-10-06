@@ -79,8 +79,8 @@ public class Rasterer {
 
     private int getDepth(Map<String, Double> params) {
         Double goalDpp = (params.get("lrlon") - params.get("ullon")) / ((double) (params.get("w")));
-        Double nowDpp = ((Double) (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON)) /
-                (((Integer) (MapServer.TILE_SIZE)).doubleValue());
+        Double nowDpp = ((Double) (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON))
+                / (((Integer) (MapServer.TILE_SIZE)).doubleValue());
         for (int i = 0; i <= 7; i += 1) {
             if (nowDpp < goalDpp) {
                 return i;
@@ -95,10 +95,10 @@ public class Rasterer {
         Map<String, Object> results = new HashMap<>();
         results.put("query_success", check(params));
         results.put("depth", getDepth(params));
-        Double lonDpp = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) /
-                (256.0 * Math.pow(2, (Integer) results.get("depth")));
-        Double latDpp = (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) /
-                (256.0 * Math.pow(2, (Integer) results.get("depth")));
+        Double lonDpp = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON)
+                / (256.0 * Math.pow(2, (Integer) results.get("depth")));
+        Double latDpp = (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT)
+                / (256.0 * Math.pow(2, (Integer) results.get("depth")));
 
         Double leftpp = (params.get("ullon") - MapServer.ROOT_ULLON) / lonDpp;
         Double rightpp = (params.get("lrlon") - MapServer.ROOT_ULLON) / lonDpp;
